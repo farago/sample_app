@@ -15,16 +15,7 @@ describe "User pages" do
   describe "signup" do
 
     before { visit signup_path }
-
-    let(:submit) { "Create my account" }
-    let(:tooLong) { "Name is too long (maximum is 50 characters)" }
-    let(:nameBlank) { "Name can't be blank" }
-    let(:emailBlank) { "Email can't be blank" }
-    let(:emailInvalid) { "Email is invalid" }
-    let(:tooShort) { "Password is too short (minimum is 6 characters)" }
-    let(:password) { "short" }
-    let(:passwordBlank) { "Password can't be blank" }
-    let(:notMatching) { "Password confirmation doesn't match Password" }
+    setStrings
 
     describe "with invalid information" do
       it "should not create a user" do
@@ -36,18 +27,17 @@ describe "User pages" do
 
       describe "when name is too long" do
         before do
-          fill_in "Name",         with: "a"*51
-          click_button submit 
+          submitSignupForm(name: "a"*51)
         end
         
-        it "should display error message" do
+         it "should display error message" do
           expect { should have_content(tooLong)}
         end
       end
       
       describe "when name is blank" do
         before do
-          click_button submit 
+          submitSignupForm
         end
         
         it "should display error message" do
@@ -60,8 +50,7 @@ describe "User pages" do
 
       describe "email is invalid" do
         before do
-          fill_in "Email",         with: "asadfasdf"
-          click_button submit 
+          submitSignupForm(email: "asadfasdf")
         end
         
         it "should display error message" do
@@ -71,7 +60,7 @@ describe "User pages" do
       
       describe "when email is blank" do
         before do
-          click_button submit 
+          submitSignupForm
         end
         
         it "should display error message" do
@@ -84,8 +73,7 @@ describe "User pages" do
 
       describe "password is too short" do
         before do
-          fill_in "Password",         with: password
-          click_button submit 
+          submitSignupForm(password: password)
         end
         
         it "should display error message" do
@@ -95,7 +83,7 @@ describe "User pages" do
       
       describe "when password is blank" do
         before do
-          click_button submit 
+          submitSignupForm
         end
         
         it "should display error message" do
@@ -105,9 +93,7 @@ describe "User pages" do
 
       describe "when confirmation doesn't match" do
         before do
-          fill_in "Password",         with: password
-          fill_in "Confirmation",     with: "sdfs"
-          click_button submit 
+          submitSignupForm(password: password, confirmation: "sdfs")
         end
         
         it "should display error message" do
@@ -118,11 +104,7 @@ describe "User pages" do
 
     describe "with valid information" do
       before do
-          fill_in "Name",         with: "Example User"
-          fill_in "Email",        with: "us3er@example.com"
-          fill_in "Password",     with: "foobar"
-          fill_in "Confirmation", with: "foobar"
-          click_button submit
+          submitSignupForm("Example User", "us3er@example.com", "foobar", "foobar")
         end
 
       describe "after saving the user" do
