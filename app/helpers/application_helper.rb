@@ -26,7 +26,7 @@ module ApplicationHelper
   	fill_in "Name",         with: name
   	fill_in "Email",        with: email
   	fill_in "Password",     with: password
-  	fill_in "Confirmation", with: confirmation
+  	fill_in "Confirm Password", with: confirmation
   	click_button submit
   end
 
